@@ -32,7 +32,8 @@ dev_dependencies:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/images/verum_launcher_4-1.png"
+  image_path_android: "assets/images/verum_launcher_4x.png"
+  image_path_ios: "assets/images/verum_launcher_4-1.png"
   remove_alpha_ios: true
   adaptive_icon_background: #203745
   adaptive_icon_foreground: "assets/images/verum_launcher_4-1.png"
