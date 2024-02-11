@@ -28,6 +28,7 @@ dev_dependencies:
   build_runner: ^2.4.8
   mockito: ^5.4.4
   flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.3.10
 
 flutter_launcher_icons:
   android: true
@@ -37,6 +38,19 @@ flutter_launcher_icons:
   remove_alpha_ios: true
   adaptive_icon_background: #203745
   adaptive_icon_foreground: "assets/images/verum_launcher_4-1.png"
+
+flutter_native_splash:
+  image_android: "assets/images/verum_splash_logo_1x.png"
+  image_ios: "assets/images/verum_splash_logo.png"
+  color: "#203745"
+  # branding: "assets/images/verum_launcher_4x.png"
+  android_12:
+    image: "assets/images/verum_splash_logo_1x.png"
+    color: "#203745"
+    # branding: "assets/images/verum_launcher_4x.png"
+  web: false
+
+
 
 flutter:
   uses-material-design: true
