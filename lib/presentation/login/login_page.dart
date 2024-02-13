@@ -67,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium
-                          ?.copyWith(color: offWhite2),
+                          ?.copyWith(color: ThemeColors.offWhite2),
                       textAlign: TextAlign.center,
                       softWrap: true,
                       maxLines: 2,
@@ -84,14 +84,14 @@ class _LoginPageState extends State<LoginPage> {
                       child: TextFormField(
                         controller: textEditingController,
                         focusNode: focusNode,
-                        cursorColor: offWhite3,
+                        cursorColor: ThemeColors.offWhite3,
                         style: Theme.of(context).textTheme.bodyMedium,
                         decoration: InputDecoration(
                           prefix: Text(
                             "+373 ",
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
-                          fillColor: inputFillColor,
+                          fillColor: ThemeColors.inputFillColor,
                           filled: true,
                           counter: null,
                           border: OutlineInputBorder(

@@ -22,6 +22,8 @@ final themeDataDark = ThemeData(
   scaffoldBackgroundColor: const Color(0xFF203745),
   textTheme: TextTheme(
     titleLarge:
+        baseTextStyle.copyWith(fontSize: 20, fontWeight: FontWeight.bold),
+    titleMedium:
         baseTextStyle.copyWith(fontSize: 18, fontWeight: FontWeight.bold),
     bodyLarge: baseTextStyle.copyWith(fontSize: 20.0),
     bodyMedium: baseTextStyle,
@@ -45,7 +47,9 @@ final baseTextStyle = GoogleFonts.karla(
   fontSize: 16.0,
 );
 
-const Color offWhite = Color(0xFFE3ECF2);
-const Color offWhite2 = Color(0xFFC7DAE5);
-const Color offWhite3 = Color(0xFFABC7D8);
-const Color inputFillColor = Color(0xFF477A9A);
+class ThemeColors {
+  static const Color offWhite = Color(0xFFE3ECF2);
+  static const Color offWhite2 = Color(0xFFC7DAE5);
+  static const Color offWhite3 = Color(0xFFABC7D8);
+  static const Color inputFillColor = Color(0xFF477A9A);
+}
