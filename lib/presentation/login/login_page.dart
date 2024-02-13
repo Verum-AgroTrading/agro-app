@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:verum_agro_trading/bloc/iam/iam_bloc.dart';
 import 'package:verum_agro_trading/presentation/widgets/primary_button.dart';
+import 'package:verum_agro_trading/routing/routes.dart';
 import 'package:verum_agro_trading/theme/theme.dart';
 import 'package:verum_agro_trading/utils/svg_constants.dart';
 
@@ -135,9 +136,9 @@ class _LoginPageState extends State<LoginPage> {
                       log(state.toString());
 
                       // navigate to verify otp page
-                      if (state.state == IamStateValue.success &&
-                          state.navigateTo != null &&
-                          state.navigateTo!.isNotEmpty) {
+                      if (mounted &&
+                          state.state == IamStateValue.success &&
+                          state.navigateTo == RoutingPaths.verifyOtp) {
                         //TODO: change the country code to match client requirements
                         context.pushNamed(state.navigateTo!,
                             pathParameters: {
@@ -162,15 +163,14 @@ class _LoginPageState extends State<LoginPage> {
                           //TODO: change the country code and length comparison to match client requirements
                           String phoneNumber =
                               "+91${textEditingController.text}";
+                          log(_validationKey.currentState
+                                  ?.validate()
+                                  .toString() ??
+                              "");
                           if (phoneNumber.length == 13) {
                             context
                                 .read<IamBloc>()
                                 .add(IamLoginEvent(phoneNumber: phoneNumber));
-                          } else {
-                            log(_validationKey.currentState
-                                    ?.validate()
-                                    .toString() ??
-                                "");
                           }
                         },
                       );
