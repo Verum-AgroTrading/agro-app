@@ -1,17 +1,39 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:verum_agro_trading/main.dart';
+import 'package:verum_agro_trading/bloc/iam/iam_bloc.dart';
+import 'package:verum_agro_trading/domain/iam_repository.dart';
+import 'package:verum_agro_trading/get_it.dart';
 import 'package:verum_agro_trading/presentation/login/login_page.dart';
+import 'package:verum_agro_trading/presentation/login/opt_verification_page.dart';
 
 // GoRouter configuration
 final router = GoRouter(
+  initialLocation: RoutingPaths.login,
   routes: [
     GoRoute(
-      path: '/',
-      builder: (context, state) => const MyHomePage(),
+      path: RoutingPaths.login,
+      name: RoutingPaths.login,
+      builder: (context, state) => BlocProvider(
+          create: (context) =>
+              IamBloc(getIt.get<IamRepository>(), FirebaseAuth.instance),
+          child: const LoginPage()),
     ),
     GoRoute(
-      path: '/login',
-      builder: (context, state) => const LoginPage(),
+      path: RoutingPaths.verifyOtp,
+      name: RoutingPaths.verifyOtp,
+      builder: (context, state) => BlocProvider.value(
+        value: state.extra as IamBloc,
+        child: OtpVerificationPage(
+          phoneNumber: state.pathParameters['phoneNumber'] as String,
+        ),
+      ),
     ),
   ],
 );
+
+class RoutingPaths {
+  static const home = "/";
+  static const login = "/login";
+  static const verifyOtp = "/verifyOtp/:phoneNumber";
+}
