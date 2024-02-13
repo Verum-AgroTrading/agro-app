@@ -33,7 +33,8 @@ final router = GoRouter(
     GoRoute(
       path: RoutingPaths.home,
       name: RoutingPaths.home,
-      builder: (context, state) => const HomePage(),
+      builder: (context, state) => BlocProvider.value(
+          value: state.extra as IamBloc, child: const HomePage()),
     ),
   ],
 );
