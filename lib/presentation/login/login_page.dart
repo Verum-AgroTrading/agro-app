@@ -108,6 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                             borderRadius: BorderRadius.circular(16.0),
                             borderSide: const BorderSide(color: Colors.red),
                           ),
+                          counterText: "",
                         ),
                         keyboardType: TextInputType.number,
                         autofocus: true,
