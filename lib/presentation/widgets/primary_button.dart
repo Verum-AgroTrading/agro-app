@@ -54,7 +54,7 @@ class PrimaryButton extends StatelessWidget {
                   text,
                   style: isActive
                       ? baseTextStyle
-                      : baseTextStyle.copyWith(color: offWhite3),
+                      : baseTextStyle.copyWith(color: ThemeColors.offWhite3),
                 ),
         ),
       ),
