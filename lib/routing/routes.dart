@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:verum_agro_trading/bloc/iam/iam_bloc.dart';
 import 'package:verum_agro_trading/domain/iam_repository.dart';
 import 'package:verum_agro_trading/get_it.dart';
+import 'package:verum_agro_trading/presentation/home/home_page.dart';
 import 'package:verum_agro_trading/presentation/login/login_page.dart';
 import 'package:verum_agro_trading/presentation/login/opt_verification_page.dart';
 
@@ -29,11 +30,16 @@ final router = GoRouter(
         ),
       ),
     ),
+    GoRoute(
+      path: RoutingPaths.home,
+      name: RoutingPaths.home,
+      builder: (context, state) => const HomePage(),
+    ),
   ],
 );
 
 class RoutingPaths {
-  static const home = "/";
+  static const home = "/home";
   static const login = "/login";
   static const verifyOtp = "/verifyOtp/:phoneNumber";
 }
