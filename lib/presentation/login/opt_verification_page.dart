@@ -58,7 +58,9 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
     }
 
     if (otp.length == 6) {
-      context.read<IamBloc>().add(IamVerifyOtpEvent(otp: otp));
+      context
+          .read<IamBloc>()
+          .add(IamVerifyOtpEvent(otp: otp, phoneNumber: widget.phoneNumber));
     }
   }
 
@@ -107,8 +109,10 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                 focusNodes[0].requestFocus();
               }
               // shows error message
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(state.message)));
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(state.message),
+                backgroundColor: ThemeColors.primaryColor,
+              ));
             }
           },
           builder: (context, state) {
@@ -182,6 +186,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                                   });
                                 }
                               });
+                              context.read<IamBloc>().add(IamResendOtpEvent());
                             }
                           : null,
                       child: Text(

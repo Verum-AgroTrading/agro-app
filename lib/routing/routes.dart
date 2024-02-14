@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:verum_agro_trading/bloc/iam/iam_bloc.dart';
 import 'package:verum_agro_trading/domain/iam_repository.dart';
+import 'package:verum_agro_trading/domain/remote_db_repository.dart';
 import 'package:verum_agro_trading/get_it.dart';
 import 'package:verum_agro_trading/presentation/home/home_page.dart';
 import 'package:verum_agro_trading/presentation/login/login_page.dart';
@@ -16,8 +17,8 @@ final router = GoRouter(
       path: RoutingPaths.login,
       name: RoutingPaths.login,
       builder: (context, state) => BlocProvider(
-          create: (context) =>
-              IamBloc(getIt.get<IamRepository>(), FirebaseAuth.instance),
+          create: (context) => IamBloc(getIt.get<IamRepository>(),
+              FirebaseAuth.instance, getIt.get<RemoteDbRepository>()),
           child: const LoginPage()),
     ),
     GoRoute(
