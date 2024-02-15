@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "635023075181",
+    "project_id": "verum-agro",
+    "storage_bucket": "verum-agro.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:635023075181:android:71c7159b2357da624c9c64",
+        "android_client_info": {
+          "package_name": "in.manavgarg.verum_agro_trading"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBe8mWPGREHO3QVE1Vt0HYSui2UP-seFWI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
