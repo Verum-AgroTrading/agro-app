@@ -56,4 +56,5 @@ class ThemeColors {
   static const Color offWhite3 = Color(0xFFABC7D8);
   static const Color inputFillColor = Color(0xFF477A9A);
   static const Color secondaryColor = Color(0xFF3A647E);
+  static const Color secondarySurfaceColor = Color(0xFF2D4E62);
 }
