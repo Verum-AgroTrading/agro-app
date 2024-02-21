@@ -39,11 +39,14 @@ final router = GoRouter(
       builder: (context, state) {
         if (state.extra != null) {
           return BlocProvider.value(
-              value: state.extra as IamBloc, child: const HomePage());
+            value: state.extra as IamBloc,
+            child: const HomePage(),
+          );
         } else {
           return BlocProvider(
               create: (context) => IamBloc(getIt.get<IamRepository>(),
-                  FirebaseAuth.instance, getIt.get<RemoteDbRepository>()),
+                  FirebaseAuth.instance, getIt.get<RemoteDbRepository>())
+                ..add(IamSetAdminStatus()),
               child: const HomePage());
         }
       },

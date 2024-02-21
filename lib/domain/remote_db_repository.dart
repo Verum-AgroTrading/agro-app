@@ -9,4 +9,9 @@ abstract class RemoteDbRepository {
   /// phoneNumber -> 8954042886
   Future<void> registerUser(
       {required String userId, required String phoneNumber});
+
+  /// [isUserAdmin] checks if the user is and admin based on the list of
+  /// phone numbers available in the admins document.
+  /// phoneNumber -> 8954042886
+  Future<bool> isUserAdmin({required String phoneNumber});
 }

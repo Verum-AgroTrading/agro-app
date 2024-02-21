@@ -17,7 +17,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
           child: Center(
-        child: BlocListener<IamBloc, IamState>(
+        child: BlocConsumer<IamBloc, IamState>(
           listener: (context, state) {
             log(state.toString());
             if (state.navigateTo != null) {
@@ -27,8 +27,11 @@ class HomePage extends StatelessWidget {
               router.pushNamed(RoutingPaths.login);
             }
           },
-          child: Column(
+          builder: (context, state) => Column(
             children: [
+              context.read<IamBloc>().isAdmin
+                  ? const Text("Logged in as admin")
+                  : const Text("Logged in as user"),
               TextButton(
                 onPressed: () {
                   context.read<IamBloc>().add(IamSignOutEvent());
