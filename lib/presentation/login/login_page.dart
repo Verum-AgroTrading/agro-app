@@ -116,12 +116,12 @@ class _LoginPageState extends State<LoginPage> {
                         autofocus: true,
                         showCursor: true,
                         maxLength: 10,
-                        validator: (value) {
-                          if (value?.length != 10) {
-                            return "Please enter a valid number";
-                          }
-                          return null;
-                        },
+                        // validator: (value) {
+                        //   if (value?.length != 10) {
+                        //     return "Please enter a valid number";
+                        //   }
+                        //   return null;
+                        // },
                       ),
                     ),
                   ),
