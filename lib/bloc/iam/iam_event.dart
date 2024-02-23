@@ -23,3 +23,5 @@ class IamVerifyOtpEvent extends IamEvent {
 class IamResendOtpEvent extends IamEvent {}
 
 class IamSignOutEvent extends IamEvent {}
+
+class IamSetAdminStatus extends IamEvent {}
