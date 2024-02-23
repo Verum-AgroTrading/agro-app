@@ -142,9 +142,16 @@ class _LoginPageState extends State<LoginPage> {
                           state.navigateTo == RoutingPaths.verifyOtp) {
                         //TODO: change the country code to match client requirements
                         context.pushNamed(state.navigateTo!,
-                            pathParameters: {
-                              "phoneNumber": "+91${textEditingController.text}"
-                            },
+                            pathParameters:
+                                textEditingController.text.trim().length == 10
+                                    ? {
+                                        "phoneNumber":
+                                            "+91${textEditingController.text.trim()}"
+                                      }
+                                    : {
+                                        "phoneNumber":
+                                            "+373${textEditingController.text.trim()}"
+                                      },
                             extra: context.read<IamBloc>());
                       }
 
@@ -162,13 +169,22 @@ class _LoginPageState extends State<LoginPage> {
                         text: "Login".tr(),
                         onTap: () {
                           //TODO: change the country code and length comparison to match client requirements
-                          String phoneNumber =
-                              "+91${textEditingController.text}";
+
+                          String phoneNumber = "";
+                          if (textEditingController.text.trim().length == 10) {
+                            phoneNumber =
+                                "+91${textEditingController.text.trim()}";
+                          } else {
+                            phoneNumber =
+                                "+373${textEditingController.text.trim()}";
+                          }
+
                           log(_validationKey.currentState
                                   ?.validate()
                                   .toString() ??
                               "");
-                          if (phoneNumber.length == 13) {
+                          if (phoneNumber.length == 13 ||
+                              phoneNumber.length == 12) {
                             context
                                 .read<IamBloc>()
                                 .add(IamLoginEvent(phoneNumber: phoneNumber));

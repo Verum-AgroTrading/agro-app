@@ -150,7 +150,9 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                           children: [
                         //TODO: fix the substring index after the country code is fixed
                         TextSpan(
-                            text: " +373 ${widget.phoneNumber.substring(3)}",
+                            text: widget.phoneNumber.length.isEven
+                                ? "+373 ${widget.phoneNumber.substring(4)}"
+                                : " +373 ${widget.phoneNumber.substring(3)}",
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
