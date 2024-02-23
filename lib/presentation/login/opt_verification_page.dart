@@ -63,6 +63,8 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
       context
           .read<IamBloc>()
           .add(IamVerifyOtpEvent(otp: otp, phoneNumber: widget.phoneNumber));
+      // for dismissing the keyboard
+      FocusManager.instance.primaryFocus?.unfocus();
     }
   }
 

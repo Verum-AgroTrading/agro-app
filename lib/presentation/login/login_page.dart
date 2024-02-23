@@ -189,6 +189,8 @@ class _LoginPageState extends State<LoginPage> {
                                 .read<IamBloc>()
                                 .add(IamLoginEvent(phoneNumber: phoneNumber));
                           }
+                          // for dismissing the keyboard
+                          FocusManager.instance.primaryFocus?.unfocus();
                         },
                       );
                     },
