@@ -15,21 +15,61 @@ class RemoteDbRepositoryImpl extends RemoteDbRepository {
   /// in the firestore database, if yes it returns true, else false
   @override
   Future<bool> isUserRegistered({required String userId}) async {
-    final users = _remoteDatabase.collection('users');
-    DocumentSnapshot snapshot = await users.doc(userId).get();
-    log("The user $userId exists? ${snapshot.exists}");
-    return snapshot.exists;
+    try {
+      final users = _remoteDatabase.collection('users');
+      DocumentSnapshot snapshot = await users.doc(userId).get();
+      log("The user $userId exists? ${snapshot.exists}");
+      return snapshot.exists;
+    } catch (err, st) {
+      log(err.toString());
+      log(st.toString());
+      rethrow;
+    }
   }
 
   /// [registerUser] registers user for the first time
   /// phoneNumber -> 8954042886
   @override
   Future<void> registerUser(
-      {required String userId, required String phoneNumber}) async {
-    final users = _remoteDatabase.collection('users');
-    await users.doc(userId).set({
-      "role": "user",
-      "phoneNumber": phoneNumber,
-    });
+      {required String userId,
+      required String phoneNumber,
+      isAdmin = false}) async {
+    try {
+      final users = _remoteDatabase.collection('users');
+
+      Map<String, dynamic> registrationBody = {
+        "role": "user",
+        "phoneNumber": phoneNumber,
+      };
+
+      if (isAdmin) {
+        registrationBody.addAll({'admin': {}});
+      }
+      await users.doc(userId).set(registrationBody);
+    } catch (err, st) {
+      log(err.toString());
+      log(st.toString());
+      rethrow;
+    }
+  }
+
+  /// [isUserAdmin] checks if the user is and admin based on the list of
+  /// phone numbers available in the admins document.
+  /// phoneNumber -> 8954042886
+  @override
+  Future<bool> isUserAdmin({required String phoneNumber}) async {
+    try {
+      final admins = _remoteDatabase.collection('admins');
+      final result = await admins.doc(phoneNumber).get();
+      if (result.exists) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (err, st) {
+      log(err.toString());
+      log(st.toString());
+      rethrow;
+    }
   }
 }

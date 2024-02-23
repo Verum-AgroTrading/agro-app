@@ -11,7 +11,9 @@ import 'package:verum_agro_trading/presentation/login/opt_verification_page.dart
 
 // GoRouter configuration
 final router = GoRouter(
-  initialLocation: RoutingPaths.login,
+  initialLocation: FirebaseAuth.instance.currentUser == null
+      ? RoutingPaths.login
+      : RoutingPaths.home,
   routes: [
     GoRoute(
       path: RoutingPaths.login,
@@ -34,8 +36,20 @@ final router = GoRouter(
     GoRoute(
       path: RoutingPaths.home,
       name: RoutingPaths.home,
-      builder: (context, state) => BlocProvider.value(
-          value: state.extra as IamBloc, child: const HomePage()),
+      builder: (context, state) {
+        if (state.extra != null) {
+          return BlocProvider.value(
+            value: state.extra as IamBloc,
+            child: const HomePage(),
+          );
+        } else {
+          return BlocProvider(
+              create: (context) => IamBloc(getIt.get<IamRepository>(),
+                  FirebaseAuth.instance, getIt.get<RemoteDbRepository>())
+                ..add(IamSetAdminStatus()),
+              child: const HomePage());
+        }
+      },
     ),
   ],
 );

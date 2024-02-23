@@ -5,6 +5,7 @@ import 'package:verum_agro_trading/domain/iam_repository.dart';
 import 'package:verum_agro_trading/domain/remote_db_repository.dart';
 import 'package:verum_agro_trading/routing/routes.dart';
 import 'package:verum_agro_trading/utils/constants.dart';
+import 'package:verum_agro_trading/utils/helper_functions.dart';
 
 part 'iam_event.dart';
 part 'iam_state.dart';
@@ -19,7 +20,15 @@ class IamBloc extends Bloc<IamEvent, IamState> {
 
   bool get isLoggedIn => FirebaseAuth.instance.currentUser != null;
 
+  bool _isAdmin = false;
+  bool get isAdmin => _isAdmin;
+
   String get phoneNumber => _phoneNumber;
+
+  // tells if the user is admin
+  Future<bool> isCurrentUserAdmin({required String phoneNumber}) async {
+    return remoteDbRepository.isUserAdmin(phoneNumber: phoneNumber);
+  }
 
   IamBloc(this.iamRepository, this.firebaseAuth, this.remoteDbRepository)
       : super(const IamState(state: IamStateValue.initial, message: "")) {
@@ -73,10 +82,17 @@ class IamBloc extends Bloc<IamEvent, IamState> {
                   userId: user!.uid, phoneNumber: event.phoneNumber);
             }
 
+            // checking if user is an admin
+            final isUserAdmin = await isCurrentUserAdmin(
+                phoneNumber: HelperFunctions.stripCountryCode(
+                    phoneNumber: user!.phoneNumber!));
+            if (isUserAdmin) {
+              _isAdmin = isUserAdmin;
+            }
+
             emit(state.copyWith(
                 state: IamStateValue.success,
                 navigateTo: RoutingPaths.home,
-                queryParameters: null,
                 message: ""));
           } else {
             emit(state.copyWith(
@@ -130,6 +146,17 @@ class IamBloc extends Bloc<IamEvent, IamState> {
               message: Constants.genericErrorMessage));
         }
       }
+    });
+
+    on<IamSetAdminStatus>((event, emit) async {
+      final isUserAdmin = await isCurrentUserAdmin(
+          phoneNumber: HelperFunctions.stripCountryCode(
+              phoneNumber: user!.phoneNumber!));
+      if (isUserAdmin) {
+        _isAdmin = isUserAdmin;
+      }
+
+      emit(state);
     });
   }
 }

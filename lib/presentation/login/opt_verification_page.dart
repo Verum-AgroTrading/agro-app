@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +9,7 @@ import 'package:verum_agro_trading/bloc/iam/iam_bloc.dart';
 import 'package:verum_agro_trading/presentation/login/widgets/otp_field.dart';
 import 'package:verum_agro_trading/routing/routes.dart';
 import 'package:verum_agro_trading/theme/theme.dart';
+import 'package:verum_agro_trading/utils/constants.dart';
 
 class OtpVerificationPage extends StatefulWidget {
   const OtpVerificationPage({
@@ -61,6 +63,8 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
       context
           .read<IamBloc>()
           .add(IamVerifyOtpEvent(otp: otp, phoneNumber: widget.phoneNumber));
+      // for dismissing the keyboard
+      FocusManager.instance.primaryFocus?.unfocus();
     }
   }
 
@@ -79,9 +83,9 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
           },
         ),
         title: Text(
-          "Înapoi",
+          Constants.back,
           style: Theme.of(context).textTheme.titleLarge,
-        ),
+        ).tr(),
         centerTitle: false,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
@@ -128,9 +132,9 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                   height: 30,
                 ),
                 Text(
-                  "Parola de verificare",
+                  "Verification password",
                   style: Theme.of(context).textTheme.titleSmall,
-                ),
+                ).tr(),
                 const SizedBox(
                   height: 10,
                 ),
@@ -139,7 +143,8 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                   child: RichText(
                       text: TextSpan(
                           text:
-                              "Am transmis o parolă de verificare pe acest număr: ",
+                              "We have sent a verification password to this number:"
+                                  .tr(),
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium
@@ -147,7 +152,9 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                           children: [
                         //TODO: fix the substring index after the country code is fixed
                         TextSpan(
-                            text: "+373 ${widget.phoneNumber.substring(3)}",
+                            text: widget.phoneNumber.length.isEven
+                                ? "+373 ${widget.phoneNumber.substring(4)}"
+                                : " +373 ${widget.phoneNumber.substring(3)}",
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
@@ -191,8 +198,8 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                           : null,
                       child: Text(
                         isResendOtpActive
-                            ? "Retrimite parola"
-                            : "Retrimite parola (0:$secondsRemaining secs)",
+                            ? "Resend password".tr()
+                            : "Resend password (0:$secondsRemaining secs)".tr(),
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
                             color: isResendOtpActive
                                 ? ThemeColors.primaryColor

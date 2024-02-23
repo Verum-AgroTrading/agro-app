@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -55,16 +56,16 @@ class _LoginPageState extends State<LoginPage> {
                     height: 40,
                   ),
                   Text(
-                    "Bine ați venit!",
+                    "You're welcome!",
                     style: Theme.of(context).textTheme.titleLarge,
-                  ),
+                  ).tr(),
                   const SizedBox(
                     height: 20,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: Text(
-                      "Începeți prin introducerea numărului dvs. de telefon mobil",
+                      "Start by entering your mobile phone number",
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium
@@ -72,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                       textAlign: TextAlign.center,
                       softWrap: true,
                       maxLines: 2,
-                    ),
+                    ).tr(),
                   ),
                   const SizedBox(
                     height: 20,
@@ -115,12 +116,12 @@ class _LoginPageState extends State<LoginPage> {
                         autofocus: true,
                         showCursor: true,
                         maxLength: 10,
-                        validator: (value) {
-                          if (value?.length != 10) {
-                            return "Please enter a valid number";
-                          }
-                          return null;
-                        },
+                        // validator: (value) {
+                        //   if (value?.length != 10) {
+                        //     return "Please enter a valid number";
+                        //   }
+                        //   return null;
+                        // },
                       ),
                     ),
                   ),
@@ -141,9 +142,16 @@ class _LoginPageState extends State<LoginPage> {
                           state.navigateTo == RoutingPaths.verifyOtp) {
                         //TODO: change the country code to match client requirements
                         context.pushNamed(state.navigateTo!,
-                            pathParameters: {
-                              "phoneNumber": "+91${textEditingController.text}"
-                            },
+                            pathParameters:
+                                textEditingController.text.trim().length == 10
+                                    ? {
+                                        "phoneNumber":
+                                            "+91${textEditingController.text.trim()}"
+                                      }
+                                    : {
+                                        "phoneNumber":
+                                            "+373${textEditingController.text.trim()}"
+                                      },
                             extra: context.read<IamBloc>());
                       }
 
@@ -158,20 +166,31 @@ class _LoginPageState extends State<LoginPage> {
                       return PrimaryButton(
                         height: 55.0,
                         width: MediaQuery.sizeOf(context).width,
-                        text: "Începe",
+                        text: "Login".tr(),
                         onTap: () {
                           //TODO: change the country code and length comparison to match client requirements
-                          String phoneNumber =
-                              "+91${textEditingController.text}";
+
+                          String phoneNumber = "";
+                          if (textEditingController.text.trim().length == 10) {
+                            phoneNumber =
+                                "+91${textEditingController.text.trim()}";
+                          } else {
+                            phoneNumber =
+                                "+373${textEditingController.text.trim()}";
+                          }
+
                           log(_validationKey.currentState
                                   ?.validate()
                                   .toString() ??
                               "");
-                          if (phoneNumber.length == 13) {
+                          if (phoneNumber.length == 13 ||
+                              phoneNumber.length == 12) {
                             context
                                 .read<IamBloc>()
                                 .add(IamLoginEvent(phoneNumber: phoneNumber));
                           }
+                          // for dismissing the keyboard
+                          FocusManager.instance.primaryFocus?.unfocus();
                         },
                       );
                     },
